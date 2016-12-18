@@ -1,4 +1,4 @@
-package training.fpt.nhutlv.newsapp.libs;
+package training.fpt.nhutlv.newsapp.lib;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

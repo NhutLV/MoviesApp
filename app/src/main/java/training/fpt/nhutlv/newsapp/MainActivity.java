@@ -9,16 +9,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import training.fpt.nhutlv.newsapp.adapters.ViewPagerHomeAdapter;
+import training.fpt.nhutlv.newsapp.entities.TypeImage;
+import training.fpt.nhutlv.newsapp.model.service.TypeImageServiceImpl;
+import training.fpt.nhutlv.newsapp.utils.Callback;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.viewPager)
     ViewPager mViewPager;
 
@@ -116,6 +121,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            new TypeImageServiceImpl(this).getImageURL(new Callback<TypeImage>() {
+
+                @Override
+                public void onResult(TypeImage typeImage) {
+                    Log.d(TAG, "onResult: OK");
+                }
+            });
 
         } else if (id == R.id.nav_slideshow) {
 

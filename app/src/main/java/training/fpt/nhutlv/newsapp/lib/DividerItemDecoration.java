@@ -1,4 +1,4 @@
-package training.fpt.nhutlv.newsapp.libs;
+package training.fpt.nhutlv.newsapp.lib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
