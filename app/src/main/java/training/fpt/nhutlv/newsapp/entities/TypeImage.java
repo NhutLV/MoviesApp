@@ -2,11 +2,13 @@ package training.fpt.nhutlv.newsapp.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
+
 /**
  * Created by NhutDu on 19/12/2016.
  */
 
-public class TypeImage {
+public class TypeImage{
 
     //region Properties
 
@@ -94,6 +96,9 @@ public class TypeImage {
     //region
 
     //region Constructors
+
+    public TypeImage() {
+    }
 
     public TypeImage(String baseURL, String[] backdropSizes, String[] posterSizes) {
         this.baseURL = baseURL;

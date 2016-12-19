@@ -39,7 +39,7 @@ public class TypeImageServiceImpl {
 
     public void getImageURL(final training.fpt.nhutlv.newsapp.utils.Callback<TypeImage> callback){
 
-        TypeImageService service = Configuration.getClientImage().create(TypeImageService.class);
+        TypeImageService service = Configuration.getClient().create(TypeImageService.class);
 
         Call<APITypeImage> call = service.getImageURL(Constants.API_KEY);
 

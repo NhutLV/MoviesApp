@@ -13,10 +13,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import training.fpt.nhutlv.newsapp.adapters.ViewPagerHomeAdapter;
+import training.fpt.nhutlv.newsapp.entities.Movies;
 import training.fpt.nhutlv.newsapp.entities.TypeImage;
+import training.fpt.nhutlv.newsapp.model.service.MoviesService;
+import training.fpt.nhutlv.newsapp.model.service.MoviesServiceImpl;
 import training.fpt.nhutlv.newsapp.model.service.TypeImageServiceImpl;
 import training.fpt.nhutlv.newsapp.utils.Callback;
 
@@ -130,6 +135,12 @@ public class MainActivity extends AppCompatActivity
             });
 
         } else if (id == R.id.nav_slideshow) {
+            new MoviesServiceImpl(this).getPopularMovies(new Callback<ArrayList<Movies>>() {
+                @Override
+                public void onResult(ArrayList<Movies> movies) {
+                    Log.d(TAG, "onResult: Load Moives pupular OK");
+                }
+            });
 
         } else if (id == R.id.nav_manage) {
 
