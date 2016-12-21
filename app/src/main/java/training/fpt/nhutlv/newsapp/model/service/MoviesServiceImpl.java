@@ -41,16 +41,22 @@ public class MoviesServiceImpl {
 
     //endregion
 
-    public void getPopularMovies(training.fpt.nhutlv.newsapp.utils.Callback<ArrayList<Movies>> movies){
+    public void getPopularMovies(final int page, final training.fpt.nhutlv.newsapp.utils.Callback<ArrayList<Movies>> callback){
         MoviesService service = Configuration.getClient().create(MoviesService.class);
-        Call<APIMovies> call = service.getPopularMovies(Constants.API_KEY);
+        Call<APIMovies> call = service.getPopularMovies(Constants.API_KEY,page);
         call.enqueue(new Callback<APIMovies>() {
             @Override
             public void onResponse(Call<APIMovies> call, Response<APIMovies> response) {
+                ArrayList<Movies> movies = new ArrayList<Movies>();
                 APIMovies apiMovies = response.body();
-                Log.d(TAG, "onResponse: "+response.isSuccessful());
                 if(response.isSuccessful() && apiMovies.getListMovies()!=null){
-                    Log.d(TAG, "onResponse: "+apiMovies.getListMovies().get(0).getTitle());
+                    if(page==1){
+                        movies = response.body().getListMovies();
+                        callback.onResult(movies);
+                    }else if (page > 1){
+                        movies.addAll(response.body().getListMovies());
+                        callback.onResult(movies);
+                    }
                 }else{
                     Log.d(TAG, "onResponse: Failed load popular movies");
                 }

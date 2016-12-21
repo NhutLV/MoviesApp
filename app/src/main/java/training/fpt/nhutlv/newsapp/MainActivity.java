@@ -1,7 +1,15 @@
 package training.fpt.nhutlv.newsapp;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -10,8 +18,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -36,17 +48,23 @@ public class MainActivity extends AppCompatActivity
     TabLayout mTabLayout;
 
     ViewPagerHomeAdapter mAdapter;
-
+    Toolbar toolbar;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         ButterKnife.bind(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        showSnackBar();
+
 //        mViewPager = (ViewPager) findViewById(R.id.viewPager);
 //        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,6 +101,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    @Override
+    protected void onRestart() {
+        showSnackBar();
+        super.onRestart();
     }
 
     @Override
@@ -135,12 +159,6 @@ public class MainActivity extends AppCompatActivity
             });
 
         } else if (id == R.id.nav_slideshow) {
-            new MoviesServiceImpl(this).getPopularMovies(new Callback<ArrayList<Movies>>() {
-                @Override
-                public void onResult(ArrayList<Movies> movies) {
-                    Log.d(TAG, "onResult: Load Moives pupular OK");
-                }
-            });
 
         } else if (id == R.id.nav_manage) {
 
@@ -153,5 +171,50 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private int getActionBarHeight() {
+        int actionBarHeight = toolbar.getHeight();
+        if (actionBarHeight != 0)
+            return actionBarHeight;
+        final TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        } else if (getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, tv, true))
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        return actionBarHeight;
+    }
+
+    private void showSnackBar(){
+        if(!isNetworkAvailable()){
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Not network connect", 10000)
+                    .setAction("TRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            recreate();
+                        }
+                    });
+            snackbar.setActionTextColor(Color.YELLOW);
+
+            View sbView = snackbar.getView();
+            CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)sbView.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            params.topMargin= getActionBarHeight();
+            sbView.setLayoutParams(params);
+
+            sbView.setBackgroundColor(getResources().getColor(R.color.background_snackbar));
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+            snackbar.show();
+        }
     }
 }

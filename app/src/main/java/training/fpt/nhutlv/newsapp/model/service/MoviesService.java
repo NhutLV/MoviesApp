@@ -12,6 +12,6 @@ import training.fpt.nhutlv.newsapp.model.response.APIMovies;
 public interface MoviesService {
 
     @GET("movie/popular")
-    Call<APIMovies> getPopularMovies(@Query("api_key") String api_key);
+    Call<APIMovies> getPopularMovies(@Query("api_key") String api_key,@Query("page") int page);
 
 }

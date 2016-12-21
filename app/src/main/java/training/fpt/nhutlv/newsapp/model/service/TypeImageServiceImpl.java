@@ -47,17 +47,18 @@ public class TypeImageServiceImpl {
             @Override
             public void onResponse(Call<APITypeImage> call, Response<APITypeImage> response) {
                if(response.isSuccessful() && response.body().getTypeImage()!=null){
-                   Toast.makeText(mContext,"URL base "+response.body().getTypeImage().getBaseURL(),Toast.LENGTH_LONG).show();
-                   Log.d(TAG, "onResponse: "+response.body().getTypeImage().getBaseURL());
+//                   Toast.makeText(mContext,"URL base "+response.body().getTypeImage().getBaseURL(),Toast.LENGTH_LONG).show();
+                   Log.d(TAG, "TypeImage: "+response.body().getTypeImage().getBaseURL());
+                   Log.d(TAG, "TypeImage: "+response.body().getTypeImage().getProfileSizes()[0]);
                    callback.onResult(response.body().getTypeImage());
                }else{
-                   Log.d(TAG, "onResponse: "+" Get Failed Type Image");
+                   Log.d(TAG, "TypeImage: "+" Get Failed Type Image");
                }
             }
 
             @Override
             public void onFailure(Call<APITypeImage> call, Throwable t) {
-                Log.d(TAG, "onFailure: ",t);
+                Log.d(TAG, "TypeImage: ",t);
             }
         });
     }

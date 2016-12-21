@@ -7,7 +7,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <com.github.rahatarmanahmed.cpv.CircularProgressView
             android:id="@+id/progress_view"
             android:layout_width="60dp"
@@ -18,5 +17,10 @@
             app:cpv_color="#ccc"
             app:cpv_maxProgress="100"
             app:cpv_indeterminate="true" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_movies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 </LinearLayout>
