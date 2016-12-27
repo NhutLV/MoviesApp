@@ -1,6 +1,5 @@
 package training.fpt.nhutlv.newsapp;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -25,20 +24,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import training.fpt.nhutlv.newsapp.adapters.ViewPagerHomeAdapter;
-import training.fpt.nhutlv.newsapp.entities.Movies;
 import training.fpt.nhutlv.newsapp.entities.TypeImage;
-import training.fpt.nhutlv.newsapp.model.service.MoviesService;
-import training.fpt.nhutlv.newsapp.model.service.MoviesServiceImpl;
 import training.fpt.nhutlv.newsapp.model.service.TypeImageServiceImpl;
 import training.fpt.nhutlv.newsapp.utils.Callback;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.viewPager)
